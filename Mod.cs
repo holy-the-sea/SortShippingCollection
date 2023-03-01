@@ -90,14 +90,27 @@ namespace SortShippingCollection
                 int value = -1;
                 if (a != null && int.TryParse(a.name.Split(" ")[0], out var objectID1))
                 {
-                    string objectData1 = objectInformation[objectID1];
-                    num = objectDataModOrdered.IndexOf(objectData1);
+                    if (objectInformation.ContainsKey(objectID1))
+                    {
+                        string objectData1 = objectInformation[objectID1];
+                        num = objectDataModOrdered.IndexOf(objectData1);
+                    }
+                    else // handle DGA-added items
+                    {
+                        num = objectInformation.Count + 1;
+                    }
                 }
                 if (b != null && int.TryParse(b.name.Split(" ")[0], out var objectID2))
                 {
-                    string objectData2 = objectInformation[objectID2];
-                    value = objectDataModOrdered.IndexOf(objectData2);
-
+                    if (objectInformation.ContainsKey(objectID2))
+                    {
+                        string objectData2 = objectInformation[objectID2];
+                        value = objectDataModOrdered.IndexOf(objectData2);
+                    }
+                    else // handle DGA-added items
+                    {
+                        value = objectInformation.Count + 1;
+                    }
                 }
                 return num.CompareTo(value);
             });
@@ -122,6 +135,7 @@ namespace SortShippingCollection
                     fullyImmutable = true
                 });
 
+                // after you've filled up a page, add it to the collections and start a new one
                 if (newShippingPage.Count == shippingPageSize)
                 {
                     sortedShippingCollection.Add(newShippingPage);
