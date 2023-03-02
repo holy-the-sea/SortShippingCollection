@@ -44,12 +44,10 @@ namespace SortShippingCollection
 
         private void Display_OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
-            if (!Config.ModSortShippingCollection)
-                return;
             if (e.NewMenu is not GameMenu)
                 return;
 
-            else
+            if (Config.ModSortShippingCollection)
             {
                 var menu = (GameMenu)e.NewMenu;
                 if (menu.pages[5] is CollectionsPage)
